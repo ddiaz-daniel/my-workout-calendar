@@ -26,7 +26,7 @@ function dayIndex(key: string): number {
 }
 
 function uniqueDays(logs: SessionLog[]): string[] {
-  return [...new Set(logs.map((l) => toLocalDateKey(l.startedAt)))].sort();
+  return [...new Set(logs.map((l) => toLocalDateKey(l.endedAt)))].sort();
 }
 
 export function totalWorkouts(logs: SessionLog[]): number {
@@ -69,14 +69,14 @@ export function thisWeekCount(logs: SessionLog[], now: Date = new Date()): numbe
   const start = toLocalDateKey(weekStartOf(now));
   const end = toLocalDateKey(addDays(weekStartOf(now), 7));
   return logs.filter((l) => {
-    const k = toLocalDateKey(l.startedAt);
+    const k = toLocalDateKey(l.endedAt);
     return k >= start && k < end;
   }).length;
 }
 
 export function thisMonthCount(logs: SessionLog[], now: Date = new Date()): number {
   const prefix = toLocalDateKey(now).slice(0, 7);
-  return logs.filter((l) => toLocalDateKey(l.startedAt).startsWith(prefix)).length;
+  return logs.filter((l) => toLocalDateKey(l.endedAt).startsWith(prefix)).length;
 }
 
 export function totalSetsDone(logs: SessionLog[]): number {
@@ -126,7 +126,7 @@ export function weeklyCounts(
     count: 0,
   }));
   for (const l of logs) {
-    const k = toLocalDateKey(weekStartOf(new Date(l.startedAt)));
+    const k = toLocalDateKey(weekStartOf(new Date(l.endedAt)));
     const w = weeks.find((x) => x.weekStart === k);
     if (w) w.count++;
   }
