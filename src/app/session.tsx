@@ -1,4 +1,4 @@
-import { router, Stack, useNavigation, usePreventRemove } from "expo-router";
+import { router, Stack, usePreventRemove } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Alert, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -19,7 +19,6 @@ function formatElapsed(sec: number): string {
 
 export default function Session() {
   const { nextPlanId, addLog } = useWorkout();
-  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
 
   // Frozen on mount so adding a log doesn't change the plan mid-session.
@@ -46,19 +45,25 @@ export default function Session() {
   const elapsedSec = Math.max(0, Math.floor((now - startedAt.getTime()) / 1000));
 
   // Intercepts header close, Android back, and any other removal until allowLeave is set.
-  usePreventRemove(!allowLeave, ({ data }) => {
+  // Discard must turn prevention off before `repeat`; re-dispatching the action while
+  // prevention is active just gets blocked again.
+  usePreventRemove(!allowLeave, ({ repeat }) => {
     Alert.alert("Discard session?", "Your progress will not be saved.", [
       { text: "Keep going", style: "cancel" },
       {
         text: "Discard",
         style: "destructive",
-        onPress: () => navigation.dispatch(data.action),
+        onPress: () => {
+          setAllowLeave(true);
+          repeat();
+        },
       },
     ]);
   });
 
+  // After a save, leave once prevention is off (discard leaves via `repeat` instead).
   useEffect(() => {
-    if (allowLeave) router.back();
+    if (allowLeave && saving.current) router.back();
   }, [allowLeave]);
 
   const toggle = (key: string, i: number) =>
