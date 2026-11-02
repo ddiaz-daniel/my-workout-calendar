@@ -22,6 +22,16 @@ export const EXERCISE_MEDIA: Partial<Record<string, ImageSource[]>> = {
   'v-up': [require('../../assets/exercises/v-up-0.jpg'), require('../../assets/exercises/v-up-1.jpg')],
   'kb-curl': [require('../../assets/exercises/kb-curl-0.jpg')],
   'burpee': [require('../../assets/exercises/burpee-0.jpg'), require('../../assets/exercises/burpee-1.jpg')],
+
+  // Remote (hotlinked) images: need internet on first view (cached afterwards); personal use only.
+  // free-exercise-db = Unlicense; wger.de = CC-BY-SA (see wger.de for per-image authors).
+  'pike-push-up': [{ uri: 'https://wger.de/media/exercise-images/454/447f3c17-405f-46e0-b138-65c2a8caaab0.png' }],
+  'hollow-hold': [{ uri: 'https://wger.de/media/exercise-images/297/b10d3341-baa8-49ab-b462-5b3529389aac.png' }],
+  'lying-leg-raise': [{ uri: 'https://wger.de/media/exercise-images/125/Leg-raises-1.png' }, { uri: 'https://wger.de/media/exercise-images/125/Leg-raises-2.png' }],
+  'kb-russian-twist': [{ uri: 'https://wger.de/media/exercise-images/1193/70ca5d80-3847-4a8c-8882-c6e9e485e29e.png' }],
+  'flutter-kick': [{ uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Scissor_Kick/0.jpg' }, { uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Scissor_Kick/1.jpg' }],
+  'pilates-shoulder-bridge': [{ uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pelvic_Tilt_Into_Bridge/0.jpg' }, { uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pelvic_Tilt_Into_Bridge/1.jpg' }],
+  'pilates-side-bend': [{ uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Bridge/0.jpg' }, { uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Bridge/1.jpg' }],
 };
 
 export function getExerciseMedia(id: string): ImageSource[] | undefined {

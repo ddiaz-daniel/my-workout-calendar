@@ -10,20 +10,24 @@ export function ExerciseMedia({ exerciseId, size }: { exerciseId: string; size: 
   const frames = getExerciseMedia(exerciseId);
   const count = frames?.length ?? 0;
   const [frame, setFrame] = useState(0);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     setFrame(0);
+    setFailed(false);
     if (count < 2) return;
     const t = setInterval(() => setFrame((f) => (f + 1) % count), FRAME_MS);
     return () => clearInterval(t);
   }, [exerciseId, count]);
 
-  if (frames) {
+  if (frames && !failed) {
     return (
       <Image
         source={frames[frame % count]}
         style={{ width: size, height: size, borderRadius: 16 }}
         contentFit="cover"
+        cachePolicy="memory-disk"
+        onError={() => setFailed(true)}
       />
     );
   }
