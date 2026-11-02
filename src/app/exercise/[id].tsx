@@ -1,7 +1,17 @@
-import { ScrollView, Text, View } from 'react-native';
+import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import { useLocalSearchParams } from 'expo-router';
 import { ExerciseMedia } from '@/components/ExerciseMedia';
 import { getExercise } from '@/data/exercises';
+import { getVideoUrl, hasCuratedVideo } from '@/data/videos';
+
+async function openVideo(url: string) {
+  try {
+    await WebBrowser.openBrowserAsync(url);
+  } catch {
+    Alert.alert('Could not open video', 'Please try again later.');
+  }
+}
 
 export default function ExerciseScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -22,6 +32,18 @@ export default function ExerciseScreen() {
       </View>
       <Text className="text-2xl font-bold text-white">{ex.name}</Text>
       <Text className="text-zinc-400">{ex.summary}</Text>
+
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Watch video for ${ex.name}`}
+        onPress={() => openVideo(getVideoUrl(ex.id))}
+        className="items-center rounded-2xl bg-red-600 px-4 py-3 active:opacity-80"
+      >
+        <Text className="text-base font-semibold text-white">▶ Watch video</Text>
+        <Text className="text-xs text-red-100">
+          {hasCuratedVideo(ex.id) ? 'Opens YouTube' : 'Search YouTube'}
+        </Text>
+      </Pressable>
 
       <View className="gap-1 rounded-2xl bg-zinc-900 p-4">
         <Text className="text-white">{`${ex.sets} × ${ex.reps}  ·  Rest ${ex.restSec}s`}</Text>
