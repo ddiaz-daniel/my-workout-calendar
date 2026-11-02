@@ -1,12 +1,13 @@
-import { router, Stack, usePreventRemove } from "expo-router";
+import { router, Stack, useLocalSearchParams, usePreventRemove } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Alert, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ExerciseCard } from "@/components/ExerciseCard";
 import { getExercise } from "@/data/exercises";
-import { ABS_FINISHER, getPlan, PILATES_BY_PLAN } from "@/data/plans";
+import { ABS_FINISHER, getPlan, PILATES_BY_PLAN, PLANS } from "@/data/plans";
 import { useWorkout } from "@/store/WorkoutContext";
+import type { PlanId } from "@/types";
 
 function formatElapsed(sec: number): string {
   const h = Math.floor(sec / 3600);
@@ -20,9 +21,14 @@ function formatElapsed(sec: number): string {
 export default function Session() {
   const { nextPlanId, addLog } = useWorkout();
   const insets = useSafeAreaInsets();
+  const params = useLocalSearchParams<{ plan?: string }>();
 
-  // Frozen on mount so adding a log doesn't change the plan mid-session.
-  const [plan] = useState(() => getPlan(nextPlanId));
+  // Picked plan from Home, else the recommendation. Frozen on mount so adding a log
+  // doesn't change the plan mid-session.
+  const [plan] = useState(() => {
+    const picked = PLANS.find((p) => p.id === params.plan)?.id as PlanId | undefined;
+    return getPlan(picked ?? nextPlanId);
+  });
   const [startedAt] = useState(() => new Date());
   const [now, setNow] = useState(() => Date.now());
   const [allowLeave, setAllowLeave] = useState(false);

@@ -1,16 +1,20 @@
 import { router } from "expo-router";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { ABS_FINISHER, getPlan, PILATES_BY_PLAN } from "@/data/plans";
+import { ABS_FINISHER, getPlan, PILATES_BY_PLAN, PLANS } from "@/data/plans";
 import { toLocalDateKey } from "@/lib/dates";
 import { useWorkout } from "@/store/WorkoutContext";
+import type { PlanId } from "@/types";
 
 export default function Home() {
   const { nextPlanId, workoutDates } = useWorkout();
-  const plan = getPlan(nextPlanId);
+  const [pickedId, setPickedId] = useState<PlanId>(nextPlanId);
+  // Reset to the recommendation whenever it changes (e.g. after finishing a session).
+  useEffect(() => setPickedId(nextPlanId), [nextPlanId]);
+  const plan = getPlan(pickedId);
   const today = toLocalDateKey(new Date());
 
   const monthCount = useMemo(() => {
@@ -55,7 +59,33 @@ export default function Home() {
 
         <View className="gap-3 rounded-2xl bg-zinc-900 p-4">
           <Text className="text-xs uppercase tracking-wider text-zinc-400">Next session</Text>
+          <View className="flex-row gap-2">
+            {PLANS.map((p) => {
+              const active = p.id === pickedId;
+              return (
+                <Pressable
+                  key={p.id}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: active }}
+                  onPress={() => setPickedId(p.id)}
+                  className={`flex-1 items-center rounded-xl py-2 ${active ? "bg-emerald-500" : "bg-zinc-800"}`}
+                >
+                  <Text className={`font-bold ${active ? "text-zinc-950" : "text-white"}`}>{`Plan ${p.id}`}</Text>
+                  {p.id === nextPlanId ? (
+                    <Text className={`text-[10px] font-semibold ${active ? "text-zinc-900" : "text-emerald-400"}`}>
+                      ★ TODAY
+                    </Text>
+                  ) : null}
+                </Pressable>
+              );
+            })}
+          </View>
           <Text className="text-xl font-semibold text-white">{`Plan ${plan.id} · ${plan.name}`}</Text>
+          <Text className={pickedId === nextPlanId ? "text-emerald-400" : "text-amber-400"}>
+            {pickedId === nextPlanId
+              ? "★ Recommended for today"
+              : `Recommended today: Plan ${nextPlanId} · ${getPlan(nextPlanId).name}`}
+          </Text>
           <View className="flex-row flex-wrap gap-2">
             {plan.groups.map((g) => (
               <View key={g} className="rounded-full bg-zinc-800 px-3 py-1">
@@ -69,7 +99,7 @@ export default function Home() {
         </View>
 
         <Pressable
-          onPress={() => router.push("/session")}
+          onPress={() => router.push({ pathname: "/session", params: { plan: pickedId } })}
           className="items-center rounded-2xl bg-emerald-500 py-5 active:bg-emerald-600"
         >
           <Text className="text-lg font-bold text-zinc-950">Start Session</Text>
