@@ -4,7 +4,7 @@ export type Exercise = {
   id: string;
   name: string;
   groups: MuscleGroup[];
-  equipment: 'kettlebell' | 'bodyweight';
+  equipment: 'kettlebell' | 'bodyweight' | 'mat';
   sets: number;
   reps: string; // "10", "12 each side", "30s"
   restSec: number;

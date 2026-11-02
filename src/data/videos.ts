@@ -29,6 +29,17 @@ export const EXERCISE_VIDEOS: Partial<Record<string, string>> = {
   'flutter-kick': 'tPmybsDX8ZY', // How To Do Flutter Kicks (The Right Way) (Benson Specialized Fitness)
   'v-up': 'zDkDAET3GUA', // V-Ups: How to do them and how not to do them (Brent Lee Hill)
   'kb-around-the-world': 'N4mMVG8S5Kg', // Kettlebell Around the World Exercise Explained (Shane Heins, Onnit)
+  'pilates-clamshell': 'Iu7KgVTLGIg', // How to Do: PILATES CLAMSHELL (Leap Fitness)
+  'pilates-side-kick': '-ZIE6v31yFg', // Pilates Side Kick Series (Melissa Connolly)
+  'pilates-single-leg-circle': 'j7mJfReDdwQ', // Single Leg Circles on the Mat (Online Pilates Classes)
+  'pilates-shoulder-bridge': 'AGqohhQQ5_E', // How to do the shoulder bridge (UMove Fitness)
+  'pilates-push-up': 'LRL39wzDf-U', // Pilates Push Up w/ Roll Down (Pilates Academy International)
+  'pilates-leg-pull-front': '7WYTroG7QqU', // Pilates Guide: How to do Leg Pull Front (Tuck Pilates)
+  'pilates-side-bend': 'sP7_d7Kb0l8', // Pilates Side Bend (Pilates & Fitness TV)
+  'pilates-swimming': 'oBnpbzmIiMw', // How to do Pilates Swimming (Kaira Studios Pilates)
+  'pilates-swan': '-JHX6yPAjXI', // Spinal Extension Swan Exercise (Pilates In The Grove)
+  'pilates-single-leg-kick': 'hg4QpzNNhAA', // How to do the Pilates Single Leg Kick (PILATESBODY by Kayla)
+  'pilates-leg-pull-back': 'mXJwXHG3rtc', // Leg Pull on the Mat | Pilates Reverse Plank (Pilates Encyclopedia)
 };
 
 export function hasCuratedVideo(exerciseId: string): boolean {

@@ -35,6 +35,21 @@ export const ABS_FINISHER = {
   ],
 };
 
+export const PILATES_BY_PLAN: Record<PlanId, { name: string; exerciseIds: string[] }> = {
+  A: {
+    name: 'Pilates: Hips & Glutes',
+    exerciseIds: ['pilates-clamshell', 'pilates-side-kick', 'pilates-single-leg-circle', 'pilates-shoulder-bridge'],
+  },
+  B: {
+    name: 'Pilates: Chest, Shoulders & Arms',
+    exerciseIds: ['pilates-push-up', 'pilates-leg-pull-front', 'pilates-side-bend'],
+  },
+  C: {
+    name: 'Pilates: Back Body',
+    exerciseIds: ['pilates-swimming', 'pilates-swan', 'pilates-single-leg-kick', 'pilates-leg-pull-back'],
+  },
+};
+
 export function getPlan(id: PlanId): Plan {
   return PLANS.find((p) => p.id === id) as Plan;
 }

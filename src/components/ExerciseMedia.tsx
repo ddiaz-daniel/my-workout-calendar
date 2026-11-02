@@ -29,7 +29,7 @@ export function ExerciseMedia({ exerciseId, size }: { exerciseId: string; size: 
   }
 
   const ex = getExercise(exerciseId);
-  const emoji = ex?.equipment === 'kettlebell' ? '🏋️' : '🤸';
+  const emoji = ex?.equipment === 'kettlebell' ? '🏋️' : ex?.equipment === 'mat' ? '🧘' : '🤸';
   return (
     <View
       className="items-center justify-center rounded-2xl bg-zinc-800"
