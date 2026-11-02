@@ -17,16 +17,11 @@ export const EXERCISE_MEDIA: Partial<Record<string, ImageSource[]>> = {
   'kb-row': [require('../../assets/exercises/kb-row-0.jpg'), require('../../assets/exercises/kb-row-1.jpg')],
   'kb-high-pull': [require('../../assets/exercises/kb-high-pull-0.jpg'), require('../../assets/exercises/kb-high-pull-1.jpg')],
   'superman': [require('../../assets/exercises/superman-0.jpg'), require('../../assets/exercises/superman-1.jpg')],
-  'floor-dip': [require('../../assets/exercises/floor-dip-0.jpg'), require('../../assets/exercises/floor-dip-1.jpg')],
   'crunch': [require('../../assets/exercises/crunch-0.jpg'), require('../../assets/exercises/crunch-1.jpg')],
-  'lying-leg-raise': [require('../../assets/exercises/lying-leg-raise-0.jpg'), require('../../assets/exercises/lying-leg-raise-1.jpg')],
-  'kb-russian-twist': [require('../../assets/exercises/kb-russian-twist-0.jpg'), require('../../assets/exercises/kb-russian-twist-1.jpg')],
   'mountain-climber': [require('../../assets/exercises/mountain-climber-0.jpg'), require('../../assets/exercises/mountain-climber-1.jpg')],
-  'flutter-kick': [require('../../assets/exercises/flutter-kick-0.jpg'), require('../../assets/exercises/flutter-kick-1.jpg')],
   'v-up': [require('../../assets/exercises/v-up-0.jpg'), require('../../assets/exercises/v-up-1.jpg')],
   'kb-curl': [require('../../assets/exercises/kb-curl-0.jpg')],
   'burpee': [require('../../assets/exercises/burpee-0.jpg'), require('../../assets/exercises/burpee-1.jpg')],
-  'bicycle-crunch': [require('../../assets/exercises/bicycle-crunch-0.jpg')],
 };
 
 export function getExerciseMedia(id: string): ImageSource[] | undefined {

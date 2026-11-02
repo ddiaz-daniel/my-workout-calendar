@@ -338,9 +338,9 @@ const list: Exercise[] = [
     sets: 3,
     reps: '10',
     restSec: 60,
-    summary: 'A dip off a bench or sturdy chair that targets the triceps.',
+    summary: 'A dip off a sturdy chair that targets the triceps.',
     steps: [
-      'Sit on the edge of a stable chair or bench with hands beside your hips, fingers forward.',
+      'Sit on the edge of a stable chair with hands beside your hips, fingers forward.',
       'Slide your hips off the seat, legs bent with feet flat (straighten legs to make it harder).',
       'Bend your elbows straight back to lower your body about 90 degrees.',
       'Keep your back close to the chair.',
