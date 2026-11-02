@@ -25,7 +25,6 @@ export default function Session() {
   const [plan] = useState(() => getPlan(nextPlanId));
   const [startedAt] = useState(() => new Date());
   const [now, setNow] = useState(() => Date.now());
-  const [setsDone, setSetsDone] = useState<Record<string, number>>({});
   const [allowLeave, setAllowLeave] = useState(false);
   const saving = useRef(false);
 
@@ -40,8 +39,6 @@ export default function Session() {
     ...mainIds.map((id) => ({ key: `main:${id}`, id })),
     ...finisherIds.map((id) => ({ key: `finisher:${id}`, id })),
   ];
-  const totalSets = allEntries.reduce((n, e) => n + (getExercise(e.id)?.sets ?? 0), 0);
-  const doneSets = allEntries.reduce((n, e) => n + (setsDone[e.key] ?? 0), 0);
   const elapsedSec = Math.max(0, Math.floor((now - startedAt.getTime()) / 1000));
 
   // Intercepts header close, Android back, and any other removal until allowLeave is set.
@@ -66,12 +63,6 @@ export default function Session() {
     if (allowLeave && saving.current) router.back();
   }, [allowLeave]);
 
-  const toggle = (key: string, i: number) =>
-    setSetsDone((prev) => {
-      const cur = prev[key] ?? 0;
-      return { ...prev, [key]: i < cur ? i : i + 1 };
-    });
-
   const save = async () => {
     if (saving.current) return;
     saving.current = true;
@@ -83,11 +74,11 @@ export default function Session() {
         startedAt: startedAt.toISOString(),
         endedAt: endedAt.toISOString(),
         durationSec: Math.max(0, Math.round((endedAt.getTime() - startedAt.getTime()) / 1000)),
-        exercises: allEntries.map((e) => ({
-          exerciseId: e.id,
-          setsDone: setsDone[e.key] ?? 0,
-          setsPlanned: getExercise(e.id)?.sets ?? 0,
-        })),
+        // Finishing a session means everything planned was done.
+        exercises: allEntries.map((e) => {
+          const sets = getExercise(e.id)?.sets ?? 0;
+          return { exerciseId: e.id, setsDone: sets, setsPlanned: sets };
+        }),
       });
       setAllowLeave(true);
     } catch {
@@ -99,9 +90,7 @@ export default function Session() {
   const confirmEnd = () => {
     Alert.alert(
       "End session?",
-      doneSets === 0
-        ? "No sets are checked off. Did you really finish the workout?"
-        : "Did you really finish the workout?",
+      "Did you really finish the workout?",
       [
         { text: "Not yet", style: "cancel" },
         { text: "Yes, finished", onPress: save },
@@ -131,34 +120,15 @@ export default function Session() {
         }}
       />
       <ScrollView contentContainerClassName="p-4 gap-3" contentContainerStyle={{ paddingBottom: 120 }}>
-        <Text className="text-zinc-400">{`${doneSets} / ${totalSets} sets`}</Text>
-
         <Text className="mt-1 text-xs uppercase tracking-wider text-zinc-400">Main</Text>
-        {mainIds.map((id) => {
-          const key = `main:${id}`;
-          return (
-            <ExerciseCard
-              key={key}
-              exerciseId={id}
-              setsDone={setsDone[key] ?? 0}
-              onToggleSet={(i) => toggle(key, i)}
-            />
-          );
-        })}
+        {mainIds.map((id) => (
+          <ExerciseCard key={`main:${id}`} exerciseId={id} />
+        ))}
 
         <Text className="mt-3 text-lg font-bold text-orange-400">🔥 Bonus: Abs Finisher</Text>
-        {finisherIds.map((id) => {
-          const key = `finisher:${id}`;
-          return (
-            <ExerciseCard
-              key={key}
-              exerciseId={id}
-              bonus
-              setsDone={setsDone[key] ?? 0}
-              onToggleSet={(i) => toggle(key, i)}
-            />
-          );
-        })}
+        {finisherIds.map((id) => (
+          <ExerciseCard key={`finisher:${id}`} exerciseId={id} bonus />
+        ))}
       </ScrollView>
 
       <View

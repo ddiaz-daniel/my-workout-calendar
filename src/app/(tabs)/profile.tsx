@@ -6,7 +6,6 @@ import { StatTile } from "@/components/StatTile";
 import { getPlan } from "@/data/plans";
 import {
   avgDurationSec,
-  completionRate,
   currentStreakDays,
   formatDuration,
   longestStreakDays,
@@ -60,7 +59,6 @@ export default function Profile() {
       time: totalDurationSec(logs),
       avg: avgDurationSec(logs),
       sets: totalSetsDone(logs),
-      rate: completionRate(logs),
       plans: perPlanCounts(logs),
       weeks: weeklyCounts(logs, 8),
       groups,
@@ -98,7 +96,6 @@ export default function Profile() {
             </View>
             <View className="flex-row gap-3">
               <StatTile label="Sets done" value={s.sets} />
-              <StatTile label="Completion" value={`${Math.round(s.rate * 100)}%`} />
             </View>
 
             <Card title="Last 8 weeks">

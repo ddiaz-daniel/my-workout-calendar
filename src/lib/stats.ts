@@ -83,18 +83,6 @@ export function totalSetsDone(logs: SessionLog[]): number {
   return logs.reduce((s, l) => s + l.exercises.reduce((a, e) => a + e.setsDone, 0), 0);
 }
 
-export function completionRate(logs: SessionLog[]): number {
-  let done = 0;
-  let planned = 0;
-  for (const l of logs) {
-    for (const e of l.exercises) {
-      done += e.setsDone;
-      planned += e.setsPlanned;
-    }
-  }
-  return planned > 0 ? Math.min(1, done / planned) : 0;
-}
-
 export function perPlanCounts(logs: SessionLog[]): Record<PlanId, number> {
   const out: Record<PlanId, number> = { A: 0, B: 0, C: 0 };
   for (const l of logs) out[l.planId] = (out[l.planId] ?? 0) + 1;
