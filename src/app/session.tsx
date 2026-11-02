@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ExerciseCard } from "@/components/ExerciseCard";
 import { getExercise } from "@/data/exercises";
-import { ABS_FINISHER, getPlan } from "@/data/plans";
+import { ABS_FINISHER, getPlan, PILATES_BY_PLAN } from "@/data/plans";
 import { useWorkout } from "@/store/WorkoutContext";
 
 function formatElapsed(sec: number): string {
@@ -34,9 +34,11 @@ export default function Session() {
   }, []);
 
   const mainIds = plan.exerciseIds;
+  const pilates = PILATES_BY_PLAN[plan.id];
   const finisherIds = ABS_FINISHER.exerciseIds;
   const allEntries = [
     ...mainIds.map((id) => ({ key: `main:${id}`, id })),
+    ...pilates.exerciseIds.map((id) => ({ key: `pilates:${id}`, id })),
     ...finisherIds.map((id) => ({ key: `finisher:${id}`, id })),
   ];
   const elapsedSec = Math.max(0, Math.floor((now - startedAt.getTime()) / 1000));
@@ -123,6 +125,11 @@ export default function Session() {
         <Text className="mt-1 text-xs uppercase tracking-wider text-zinc-400">Main</Text>
         {mainIds.map((id) => (
           <ExerciseCard key={`main:${id}`} exerciseId={id} />
+        ))}
+
+        <Text className="mt-3 text-lg font-bold text-violet-400">{`🧘 ${pilates.name}`}</Text>
+        {pilates.exerciseIds.map((id) => (
+          <ExerciseCard key={`pilates:${id}`} exerciseId={id} badge={{ label: "🧘 PILATES", tone: "violet" }} />
         ))}
 
         <Text className="mt-3 text-lg font-bold text-orange-400">🔥 Bonus: Abs Finisher</Text>

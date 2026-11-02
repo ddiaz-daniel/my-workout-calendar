@@ -4,7 +4,7 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { ABS_FINISHER, getPlan } from "@/data/plans";
+import { ABS_FINISHER, getPlan, PILATES_BY_PLAN } from "@/data/plans";
 import { toLocalDateKey } from "@/lib/dates";
 import { useWorkout } from "@/store/WorkoutContext";
 
@@ -64,7 +64,7 @@ export default function Home() {
             ))}
           </View>
           <Text className="text-zinc-400">
-            {plan.exerciseIds.length} exercises + {ABS_FINISHER.name} ({ABS_FINISHER.exerciseIds.length})
+            {plan.exerciseIds.length} exercises + Pilates ({PILATES_BY_PLAN[plan.id].exerciseIds.length}) + {ABS_FINISHER.name} ({ABS_FINISHER.exerciseIds.length})
           </Text>
         </View>
 
