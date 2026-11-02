@@ -22,10 +22,13 @@ export function ExerciseCard({ exerciseId, bonus, badge }: Props) {
   const b: Badge | null = badge ?? (bonus ? { label: '🔥 BONUS', tone: 'orange' } : null);
 
   return (
-    <View
-      className={`rounded-2xl border bg-zinc-900 p-3 border-zinc-900`}
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`How to: ${ex.name}`}
+      onPress={() => router.push({ pathname: '/exercise/[id]', params: { id: ex.id } })}
+      className="rounded-2xl bg-zinc-900 p-3 active:opacity-70"
     >
-      <View className="flex-row gap-3">
+      <View className="flex-row items-center gap-3">
         <ExerciseMedia exerciseId={ex.id} size={88} />
         <View className="flex-1">
           {b ? (
@@ -33,7 +36,7 @@ export function ExerciseCard({ exerciseId, bonus, badge }: Props) {
               <Text className={`text-xs font-bold ${TONES[b.tone].text}`}>{b.label}</Text>
             </View>
           ) : null}
-          <Text className="pr-8 text-base font-semibold text-white">
+          <Text className="text-base font-semibold text-white">
             {ex.name}
           </Text>
           <Text className="mt-0.5 text-sm text-zinc-300">
@@ -48,15 +51,8 @@ export function ExerciseCard({ exerciseId, bonus, badge }: Props) {
             ))}
           </View>
         </View>
-        <Pressable
-          accessibilityLabel={`How to: ${ex.name}`}
-          hitSlop={8}
-          onPress={() => router.push({ pathname: '/exercise/[id]', params: { id: ex.id } })}
-          className="absolute right-0 top-0 h-7 w-7 items-center justify-center rounded-full bg-zinc-800"
-        >
-          <Text className="font-bold text-zinc-300">?</Text>
-        </Pressable>
+        <Text className="text-2xl text-zinc-500">›</Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
