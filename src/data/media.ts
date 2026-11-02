@@ -2,6 +2,7 @@ import type { ImageSource } from 'expo-image';
 
 // Frames per exercise id: 1 entry = static image, 2+ = animated by cycling frames.
 // Demo images: free-exercise-db (https://github.com/yuhonas/free-exercise-db), Unlicense / public domain.
+// Some images are from Wikimedia Commons under CC BY / CC BY-SA; see assets/exercises/CREDITS.md.
 export const EXERCISE_MEDIA: Partial<Record<string, ImageSource[]>> = {
   'kb-goblet-squat': [require('../../assets/exercises/kb-goblet-squat-0.jpg'), require('../../assets/exercises/kb-goblet-squat-1.jpg')],
   'kb-swing': [require('../../assets/exercises/kb-swing-0.jpg'), require('../../assets/exercises/kb-swing-1.jpg')],
@@ -23,6 +24,9 @@ export const EXERCISE_MEDIA: Partial<Record<string, ImageSource[]>> = {
   'mountain-climber': [require('../../assets/exercises/mountain-climber-0.jpg'), require('../../assets/exercises/mountain-climber-1.jpg')],
   'flutter-kick': [require('../../assets/exercises/flutter-kick-0.jpg'), require('../../assets/exercises/flutter-kick-1.jpg')],
   'v-up': [require('../../assets/exercises/v-up-0.jpg'), require('../../assets/exercises/v-up-1.jpg')],
+  'kb-curl': [require('../../assets/exercises/kb-curl-0.jpg')],
+  'burpee': [require('../../assets/exercises/burpee-0.jpg'), require('../../assets/exercises/burpee-1.jpg')],
+  'bicycle-crunch': [require('../../assets/exercises/bicycle-crunch-0.jpg')],
 };
 
 export function getExerciseMedia(id: string): ImageSource[] | undefined {
