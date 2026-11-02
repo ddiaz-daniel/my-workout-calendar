@@ -48,6 +48,12 @@
         "projectId": "fd235c53-5d1f-42c6-a855-f20c32351085"
       }
     },
-    "owner": "relick"
+    "owner": "relick",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/fd235c53-5d1f-42c6-a855-f20c32351085"
+    }
   }
 }
