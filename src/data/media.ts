@@ -32,6 +32,17 @@ export const EXERCISE_MEDIA: Partial<Record<string, ImageSource[]>> = {
   'flutter-kick': [{ uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Scissor_Kick/0.jpg' }, { uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Scissor_Kick/1.jpg' }],
   'pilates-shoulder-bridge': [{ uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pelvic_Tilt_Into_Bridge/0.jpg' }, { uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pelvic_Tilt_Into_Bridge/1.jpg' }],
   'pilates-side-bend': [{ uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Bridge/0.jpg' }, { uri: 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Bridge/1.jpg' }],
+  // Remote images from fitness sites (fitbod.me, planfit.ai, garagegymreviews.com); personal use only.
+  'bicycle-crunch': [{ uri: 'https://app-media.fitbod.me/v2/47/images/landscape/0_960x540.jpg' }, { uri: 'https://app-media.fitbod.me/v2/47/images/landscape/1_960x540.jpg' }],
+  'plank-jack': [{ uri: 'https://app-media.fitbod.me/v2/456/images/landscape/0_960x540.jpg' }, { uri: 'https://app-media.fitbod.me/v2/456/images/landscape/1_960x540.jpg' }],
+  'floor-dip': [{ uri: 'https://d2m0n84d5tgmh1.cloudfront.net/training-image/6023_thumbnail.png' }],
+  'kb-around-the-world': [{ uri: 'https://i.garagegymreviews.com/334/349/376/7/kettlebell-around-the-world-cover.webp' }],
+  'pilates-clamshell': [{ uri: 'https://d2m0n84d5tgmh1.cloudfront.net/training-image/4126_thumbnail.png' }],
+  'pilates-single-leg-circle': [{ uri: 'https://d2m0n84d5tgmh1.cloudfront.net/training-image/5104_thumbnail.png' }],
+  'pilates-swan': [{ uri: 'https://d2m0n84d5tgmh1.cloudfront.net/training-image/10054_thumbnail.png' }],
+  'pilates-swimming': [{ uri: 'https://app-media.fitbod.me/v2/2013/images/landscape/0_960x540.jpg' }, { uri: 'https://app-media.fitbod.me/v2/2013/images/landscape/1_960x540.jpg' }],
+  'pilates-leg-pull-back': [{ uri: 'https://app-media.fitbod.me/v2/754/images/landscape/0_960x540.jpg' }, { uri: 'https://app-media.fitbod.me/v2/754/images/landscape/1_960x540.jpg' }],
+  'pilates-push-up': [{ uri: 'https://app-media.fitbod.me/v2/522/images/landscape/0_960x540.jpg' }, { uri: 'https://app-media.fitbod.me/v2/522/images/landscape/1_960x540.jpg' }],
 };
 
 export function getExerciseMedia(id: string): ImageSource[] | undefined {
