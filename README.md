@@ -17,7 +17,7 @@ Pick a plan, follow the cards, tap **End Session**, and the workout shows up on 
 - **🧘 Pilates block.** Mat Pilates moves chosen to match the session's muscle groups.
 - **🔥 Abs finisher.** A high-intensity core burner at the end of every session.
 - **🖼️ Exercise cards.** Animated frames, sets × reps and rest time. Tap a card for step-by-step instructions, tips, and a video link.
-- **✅ Check off what you did.** Tick the circle on each card you completed (it counts as the full sets × reps). End Session shows how many you did and asks The app "Did you really finish the workout?" before logging. Leaving early asks before discarding.
+- **✅ Check off what you did.** Tick the circle on each card you completed (it counts as the full sets × reps). End Session shows how many you did and asks "Did you really finish the workout?" before logging. Leaving early asks before discarding.
 - **📊 Profile stats.** Total workouts, current and longest streak, this week and month, total and average time, sets done, an 8-week chart, muscle-group breakdown, and recent sessions.
 - **📱 Offline and private.** Everything is stored on your device with AsyncStorage. There's no account and no backend.
 
