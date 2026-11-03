@@ -32,6 +32,7 @@ export default function Session() {
   const [startedAt] = useState(() => new Date());
   const [now, setNow] = useState(() => Date.now());
   const [allowLeave, setAllowLeave] = useState(false);
+  const [done, setDone] = useState<Set<string>>(() => new Set());
   const saving = useRef(false);
 
   useEffect(() => {
@@ -47,6 +48,17 @@ export default function Session() {
     ...pilates.exerciseIds.map((id) => ({ key: `pilates:${id}`, id })),
     ...finisherIds.map((id) => ({ key: `finisher:${id}`, id })),
   ];
+  const toggle = (key: string) =>
+    setDone((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  const card = (key: string, id: string, extra?: { bonus?: boolean; badge?: { label: string; tone: "orange" | "violet" } }) => (
+    <ExerciseCard key={key} exerciseId={id} checked={done.has(key)} onToggle={() => toggle(key)} {...extra} />
+  );
+
   const elapsedSec = Math.max(0, Math.floor((now - startedAt.getTime()) / 1000));
 
   // Intercepts header close, Android back, and any other removal until allowLeave is set.
@@ -82,10 +94,10 @@ export default function Session() {
         startedAt: startedAt.toISOString(),
         endedAt: endedAt.toISOString(),
         durationSec: Math.max(0, Math.round((endedAt.getTime() - startedAt.getTime()) / 1000)),
-        // Finishing a session means everything planned was done.
+        // A checked exercise counts as all planned sets × reps done; unchecked as none.
         exercises: allEntries.map((e) => {
           const sets = getExercise(e.id)?.sets ?? 0;
-          return { exerciseId: e.id, setsDone: sets, setsPlanned: sets };
+          return { exerciseId: e.id, setsDone: done.has(e.key) ? sets : 0, setsPlanned: sets };
         }),
       });
       setAllowLeave(true);
@@ -96,9 +108,13 @@ export default function Session() {
   };
 
   const confirmEnd = () => {
+    if (done.size === 0) {
+      Alert.alert("Nothing checked", "Tick the exercises you did before ending the session.");
+      return;
+    }
     Alert.alert(
       "End session?",
-      "Did you really finish the workout?",
+      `Did you really finish the workout?\n${done.size} of ${allEntries.length} exercises done.`,
       [
         { text: "Not yet", style: "cancel" },
         { text: "Yes, finished", onPress: save },
@@ -130,17 +146,17 @@ export default function Session() {
       <ScrollView contentContainerClassName="p-4 gap-3" contentContainerStyle={{ paddingBottom: 120 }}>
         <Text className="mt-1 text-xs uppercase tracking-wider text-zinc-400">Main</Text>
         {mainIds.map((id) => (
-          <ExerciseCard key={`main:${id}`} exerciseId={id} />
+          card(`main:${id}`, id)
         ))}
 
         <Text className="mt-3 text-lg font-bold text-violet-400">{`🧘 ${pilates.name}`}</Text>
         {pilates.exerciseIds.map((id) => (
-          <ExerciseCard key={`pilates:${id}`} exerciseId={id} badge={{ label: "🧘 PILATES", tone: "violet" }} />
+          card(`pilates:${id}`, id, { badge: { label: "🧘 PILATES", tone: "violet" } })
         ))}
 
         <Text className="mt-3 text-lg font-bold text-orange-400">🔥 Bonus: Abs Finisher</Text>
         {finisherIds.map((id) => (
-          <ExerciseCard key={`finisher:${id}`} exerciseId={id} bonus />
+          card(`finisher:${id}`, id, { bonus: true })
         ))}
       </ScrollView>
 
@@ -153,7 +169,7 @@ export default function Session() {
           onPress={confirmEnd}
           className="items-center rounded-2xl bg-emerald-500 py-4 active:opacity-80"
         >
-          <Text className="text-base font-bold text-zinc-950">End Session</Text>
+          <Text className="text-base font-bold text-zinc-950">{`End Session · ${done.size}/${allEntries.length}`}</Text>
         </Pressable>
       </View>
     </View>

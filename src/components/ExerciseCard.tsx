@@ -7,6 +7,9 @@ type Props = {
   exerciseId: string;
   bonus?: boolean;
   badge?: Badge;
+  /** When set, a check button on the left marks the exercise as done. */
+  checked?: boolean;
+  onToggle?: () => void;
 };
 
 type Badge = { label: string; tone: 'orange' | 'violet' };
@@ -16,7 +19,7 @@ const TONES = {
   violet: { bg: 'bg-violet-500/20', text: 'text-violet-400' },
 } as const;
 
-export function ExerciseCard({ exerciseId, bonus, badge }: Props) {
+export function ExerciseCard({ exerciseId, bonus, badge, checked, onToggle }: Props) {
   const ex = getExercise(exerciseId);
   if (!ex) return null;
   const b: Badge | null = badge ?? (bonus ? { label: '🔥 BONUS', tone: 'orange' } : null);
@@ -26,9 +29,21 @@ export function ExerciseCard({ exerciseId, bonus, badge }: Props) {
       accessibilityRole="button"
       accessibilityLabel={`How to: ${ex.name}`}
       onPress={() => router.push({ pathname: '/exercise/[id]', params: { id: ex.id } })}
-      className="rounded-2xl bg-zinc-900 p-3 active:opacity-70"
+      className={`rounded-2xl border bg-zinc-900 p-3 active:opacity-70 ${checked ? 'border-emerald-500/60' : 'border-zinc-900'}`}
     >
       <View className="flex-row items-center gap-3">
+        {onToggle ? (
+          <Pressable
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: !!checked }}
+            accessibilityLabel={`Done: ${ex.name}`}
+            hitSlop={10}
+            onPress={onToggle}
+            className={`h-8 w-8 items-center justify-center rounded-full border-2 ${checked ? 'border-emerald-500 bg-emerald-500' : 'border-zinc-600'}`}
+          >
+            {checked ? <Text className="text-base font-bold text-zinc-950">✓</Text> : null}
+          </Pressable>
+        ) : null}
         <ExerciseMedia exerciseId={ex.id} size={88} />
         <View className="flex-1">
           {b ? (
